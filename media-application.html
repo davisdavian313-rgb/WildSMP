@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Media Application</title>
+
+<style>
+body {
+    background: #0f0f0f;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #1c1c1c;
+    border-radius: 8px;
+}
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 5px;
+}
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #5865F2;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background: #4752c4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Media Application</h1>
+
+<form id="mediaForm">
+    <label>In-Game Name (IGN)</label>
+    <input type="text" id="ign" required>
+
+    <label>Discord Username</label>
+    <input type="text" id="discord" required>
+
+    <label>Channel Subscriber Count</label>
+    <input type="number" id="subs" required>
+
+    <label>Channel Link(s)</label>
+    <textarea id="channels" required></textarea>
+
+    <label>Video Link(s)</label>
+    <textarea id="videos" required></textarea>
+
+    <button type="submit">Submit Application</button>
+</form>
+</div>
+
+<script>
+const webhookURL = "https://discord.com/api/webhooks/1450995787478597745/vfZztahDBShNL8l8KnKMJAikHJiYPXV_EKcYfP6_EEVUj639ucrOiQo3Cyzi5sJeZV4Q";
+
+document.getElementById("mediaForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const data = {
+        embeds: [{
+            title: "📺 New Media Application",
+            color: 5793266,
+            fields: [
+                { name: "IGN", value: document.getElementById("ign").value },
+                { name: "Discord", value: document.getElementById("discord").value },
+                { name: "Subscribers", value: document.getElementById("subs").value },
+                { name: "Channel Links", value: document.getElementById("channels").value },
+                { name: "Video Links", value: document.getElementById("videos").value }
+            ],
+            footer: {
+                text: "Media Application System"
+            },
+            timestamp: new Date()
+        }]
+    };
+
+    fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        alert("Application submitted successfully!");
+        document.getElementById("mediaForm").reset();
+    })
+    .catch(() => {
+        alert("Error sending application.");
+    });
+});
+</script>
+
+</body>
+</html>
